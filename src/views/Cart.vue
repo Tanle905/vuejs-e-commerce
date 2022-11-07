@@ -1,0 +1,62 @@
+<template>
+  <section class="checkout">
+    <span class="title__span">Giỏ hàng</span>
+    <div class="row">
+      <div class="item-list">
+        <div class="header-row">
+          <span class="name-header__span">Tên mặt hàng</span>
+          <span class="price-header__span">Đơn giá</span>
+          <span class="quantity-header__span">Số lượng</span>
+          <span class="total-price-header__span">Thành tiền</span>
+          <span class="remove-item-header__span">Xóa</span>
+        </div>
+        <div v-for="item of itemsList" class="item-detail-row">
+          <img :src="item.image" class="image__img" alt="" />
+          <div class="name-sku">
+            <p class="item-name__p">{{ item.name }}</p>
+            <span class="item-sku__span">SKU: {{ item.sku }}</span>
+          </div>
+          <span class="price__span">{{ item.price }}</span>
+          <input type="number" class="quantity__input" min="0" />
+          <span class="total-price-item__span">{{
+            item.price * item.quantity
+          }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="remove-item__svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            v-on:click="onDeleteItem(item.id)"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="checkout-section">
+        <div class="checkout-row checkout-row--address">
+          <app-checkout-address></app-checkout-address>
+        </div>
+        <div class="checkout-row">
+          <span class="checkout-title__span">Thanh toán</span>
+          <div class="total-price">
+            <span class="total-price-title__span">Thành tiền: </span>
+            <span class="total-price__span">{{ totalPrice }}</span>
+          </div>
+          <button class="checkout__button" v-on:click="onCheckout()">
+            <span>Thanh toán</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+<script></script>
+<style lang="scss" scoped>
+    @import '../assets/cart.sass'
+</style>
