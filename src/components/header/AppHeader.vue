@@ -20,16 +20,35 @@
       <button class="icon__button">
         <i class="fas fa-clipboard-list m-auto"></i> <span>Đơn hàng</span>
       </button>
-      <button class="icon__button" v-on:click="onAuthNavigate()">
-        <!-- <app-header-profile
-          [userData]="userData"
-          *ngIf="isAccountHovered && userData"
-        ></app-header-profile> -->
-        <i class="fas fa-user m-auto" v-if="!false || !false"></i>
-        <div v-else>
-          <img class="avatar__img" src="userData && userData.avatar" alt="" />
+      <button
+        class="icon__button"
+        v-on:click="!userStore.userProfile && onNavigate()"
+        @mouseover="
+          () => {
+            isProfileHovered = true;
+          }
+        "
+        @mouseleave="
+          () => {
+            isProfileHovered = false;
+          }
+        "
+      >
+        <HeaderProfile v-if="userStore.userProfile && isProfileHovered" />
+        <i
+          class="fas fa-user m-auto"
+          v-if="!userStore?.userProfile?.imageUrl"
+        ></i>
+        <div class="m-auto" v-else>
+          <img
+            class="avatar__img"
+            :src="userStore?.userProfile?.imageUrl"
+            alt=""
+          />
         </div>
-        <span>{{ false ? false : "Đăng nhập" }}</span>
+        <span>{{
+          userStore.userProfile ? userStore.userProfile.username : "Đăng nhập"
+        }}</span>
       </button>
       <button class="icon__button">
         <i class="fas fa-bell m-auto"></i> <span>Thông báo</span>
@@ -46,9 +65,23 @@
   </header>
 </template>
 <script setup>
+import HeaderProfile from "@/components/header/HeaderProfile.vue";
+import { onMounted, ref } from "vue";
 import router from "../../router";
+import { userStore } from "../../stores/store";
+import UserService from "@/services/user.service";
 
-function onAuthNavigate() {
+const accessToken = localStorage.getItem("accessToken");
+const isProfileHovered = ref(false);
+
+onMounted(async () => {
+  if (accessToken) {
+    const data = await UserService.getOwnProfile(accessToken);
+    userStore.setUserProfile(data.data);
+  }
+});
+
+function onNavigate() {
   router.push({ name: "auth" });
 }
 

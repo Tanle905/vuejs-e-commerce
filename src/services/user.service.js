@@ -1,14 +1,14 @@
 import axios from "axios";
 
 class UserService {
-  URL = "https://phongvu-api.herokuapp.com/api/v1";
+  URL = "https://tmdt-be-ygps.vercel.app";
   userApi = {
     categories: "/categories",
-    products: "/products",
+    product: "/product",
     userLogin: "/auth/login",
     userForgotPassword: "/auth/forgot-password",
     userRegister: "/auth/register",
-    userProfile: "/users/me/profile",
+    userProfile: "/profile",
     userPaymentMethod: "/users/me/payment-methods",
     userAddresses: "/users/me/addresses",
   };
@@ -16,13 +16,13 @@ class UserService {
   getProducts() {
     return axios.get(
       this.URL +
-        this.userApi.products +
+        this.userApi.product +
         "?page=1&limit=10&search=&sort[createdAt]=asc"
     );
   }
 
   getProductDetails(productId) {
-    return axios.get(this.URL + this.userApi.products + "/" + productId);
+    return axios.get(this.URL + this.userApi.product + "/" + productId);
   }
 
   getOwnProfile(token) {

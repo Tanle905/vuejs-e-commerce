@@ -8,8 +8,8 @@
           v-on:click="onNavigate(product)"
           class="product__detail"
         >
-          <img class="product-image__img" :src="product.image" alt="" />
-          <p class="product-name__p">{{ product.name }}</p>
+          <img class="product-image__img" :src="product.imageUrl" alt="" />
+          <p class="product-name__p">{{ product.title }}</p>
           <span class="product-price__span">{{ product.price }}</span>
         </div>
       </div>

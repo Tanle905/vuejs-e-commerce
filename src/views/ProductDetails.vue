@@ -1,9 +1,9 @@
 <template>
   <div v-if="productDetails" class="product">
     <div class="product-upper">
-      <img class="detail__img" :src="productDetails.image" alt="" />
+      <img class="detail__img" :src="productDetails.imageUrl" alt="" />
       <div class="detail-info">
-          <span class="title__span">{{ productDetails.name }}</span>
+          <span class="title__span">{{ productDetails.title }}</span>
           <span class="price__span">{{ productDetails.price }}</span>
         <div class="button">
           <button v-on:click="onBuyNow()" class="buy-now__button">
@@ -29,7 +29,7 @@ const productDetails = ref();
 
 onMounted(() => {
   UserService.getProductDetails(router.params.id).then((result) => {
-    productDetails.value = result.data.data;
+    productDetails.value = result.data;
   });
 });
 </script>

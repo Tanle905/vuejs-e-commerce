@@ -41,6 +41,9 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import { ref } from "vue";
+import UserService from "@/services/user.service";
+import { userStore } from "../stores/store";
+import router from "../router";
 
 const auth = ref({});
 const isLoginMode = ref(true);
@@ -49,8 +52,15 @@ function onSwitchMode() {
   isLoginMode.value = !isLoginMode.value;
 }
 
-function submitAuth(data) {
-    console.log(data)
+async function submitAuth(payload) {
+  const data = isLoginMode
+    ? await UserService.auth(payload)
+    : await UserService.register(payload);
+  if (data) {
+    localStorage.setItem("accessToken", data.data.accessToken);
+    userStore.setUserProfile(data.data);
+    window.location.href = "/";
+  }
 }
 </script>
 <style lang="scss" scoped>
