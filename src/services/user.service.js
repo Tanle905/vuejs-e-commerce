@@ -13,11 +13,13 @@ class UserService {
     userAddresses: "/users/me/addresses",
   };
 
-  getProducts() {
+  getProducts( title = null ) {
     return axios.get(
       this.URL +
         this.userApi.product +
-        "?page=1&limit=10&search=&sort[createdAt]=asc"
+        `?page=1&limit=10${
+          title ? `&title=${title}` : ""
+        }`
     );
   }
 
@@ -74,4 +76,4 @@ class UserService {
   }
 }
 
-export default new UserService;
+export default new UserService();

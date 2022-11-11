@@ -2,16 +2,7 @@
   <header class="header">
     <div class="header__left">
       <RouterLink to="/" class="header__brand">Phong Vu.</RouterLink>
-      <form action="" class="header__form">
-        <input
-          type="text"
-          class="form__input"
-          placeholder="Nhập từ khóa cần tìm..."
-        />
-        <button class="form__button">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
+      <HeaderSearch />
     </div>
     <div class="header__right">
       <button class="icon__button">
@@ -66,10 +57,11 @@
 </template>
 <script setup>
 import HeaderProfile from "@/components/header/HeaderProfile.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import router from "../../router";
 import { userStore } from "../../stores/store";
 import UserService from "@/services/user.service";
+import HeaderSearch from "./HeaderSearch.vue";
 
 const accessToken = localStorage.getItem("accessToken");
 const isProfileHovered = ref(false);

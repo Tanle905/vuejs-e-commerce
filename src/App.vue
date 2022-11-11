@@ -10,7 +10,7 @@ export default {
   <div id="app">
     <AppHeader />
     <div class="container mt-3">
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </div>
   </div>
 </template>
