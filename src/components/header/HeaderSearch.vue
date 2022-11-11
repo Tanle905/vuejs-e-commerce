@@ -12,29 +12,32 @@
     <button class="form__button">
       <i class="fas fa-search"></i>
     </button>
-  </form>
-  <div
-    class="product-search"
-    v-if="isSearchFocus"
-    v-on:mouseover="isSearchHover = true"
-    v-on:mouseleave="isSearchHover = false"
-  >
     <div
-      class="product-search-detail"
-      v-for="product in matchedProduct"
-      v-on:click="onNavigate(product)"
+      class="product-search"
+      v-if="isSearchFocus"
+      v-on:mouseover="isSearchHover = true"
+      v-on:mouseleave="isSearchHover = false"
     >
-      <div class="image-wraper">
-        <img
-          style="border-radius: 5%"
-          :src="product.imageUrl"
-          width="150"
-          height="80"
-        />
+      <div
+        class="product-search-detail"
+        v-for="product in matchedProduct"
+        v-on:click="onNavigate(product)"
+      >
+        <div class="image-wraper">
+          <img
+            style="object-fit: cover; border-radius: 5%"
+            :src="product.imageUrl"
+            width="150"
+            height="100"
+          />
+        </div>
+        <div>
+          <p class="product-search-detail-title__p">{{ product.title }}</p>
+          <p class="product-search-detail-description__p">{{ product.description }}</p>
+        </div>
       </div>
-      <p class="product-search-detail__p">{{ product.title }}</p>
     </div>
-  </div>
+  </form>
 </template>
 <script setup>
 import { debounce } from "lodash";

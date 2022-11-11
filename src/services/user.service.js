@@ -9,17 +9,16 @@ class UserService {
     userForgotPassword: "/auth/forgot-password",
     userRegister: "/auth/register",
     userProfile: "/profile",
+    userCart: "/cart",
     userPaymentMethod: "/users/me/payment-methods",
     userAddresses: "/users/me/addresses",
   };
 
-  getProducts( title = null ) {
+  getProducts(title = null) {
     return axios.get(
       this.URL +
         this.userApi.product +
-        `?page=1&limit=10${
-          title ? `&title=${title}` : ""
-        }`
+        `?page=1&limit=10${title ? `&title=${title}` : ""}`
     );
   }
 
@@ -50,6 +49,12 @@ class UserService {
   register(params) {
     return axios.post(this.URL + this.userApi.userRegister, params, {
       headers: { "Content-Type": "application/x-www-form-this.URLencoded" },
+    });
+  }
+
+  getCart(token) {
+    return axios.get(this.URL + this.userApi.userCart, {
+      headers: { Authorization: "Bearer " + token },
     });
   }
 

@@ -4,7 +4,7 @@
       <img class="detail__img" :src="productDetails.imageUrl" alt="" />
       <div class="detail-info">
           <span class="title__span">{{ productDetails.title }}</span>
-          <span class="price__span">{{ productDetails.price }}</span>
+          <span class="price__span">${{ productDetails.price }}</span>
         <div class="button">
           <button v-on:click="onBuyNow()" class="buy-now__button">
             MUA NGAY

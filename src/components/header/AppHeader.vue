@@ -46,10 +46,16 @@
       </button>
       <button class="icon__button" v-on:click="onCartNavigate()">
         <!-- <app-header-cart *ngIf="isCartHovered"></app-header-cart> -->
-        <i class="fas fa-cart-shopping m-auto" routerLink="/checkout"></i>
-        <div class="cart-badge">
-          <span>{{ 2 }}</span>
-        </div>
+        <i
+          class="fas fa-cart-shopping m-auto"
+          style="position: relative"
+          routerLink="/checkout"
+        >
+          <div class="cart-badge">
+            <span>{{ totalProduct }}</span>
+          </div></i
+        >
+
         <span>Giỏ hàng</span>
       </button>
     </div>
@@ -57,7 +63,7 @@
 </template>
 <script setup>
 import HeaderProfile from "@/components/header/HeaderProfile.vue";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import router from "../../router";
 import { userStore } from "../../stores/store";
 import UserService from "@/services/user.service";
@@ -65,11 +71,14 @@ import HeaderSearch from "./HeaderSearch.vue";
 
 const accessToken = localStorage.getItem("accessToken");
 const isProfileHovered = ref(false);
+const totalProduct = ref(0);
 
 onMounted(async () => {
   if (accessToken) {
-    const data = await UserService.getOwnProfile(accessToken);
-    userStore.setUserProfile(data.data);
+    const profileData = await UserService.getOwnProfile(accessToken);
+    const cartData = await UserService.getCart(accessToken);
+    userStore.setUserProfile({ ...profileData.data, cart: cartData.data.data });
+    totalProduct.value = userStore.userProfile.cart.length;
   }
 });
 

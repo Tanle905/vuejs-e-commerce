@@ -10,7 +10,7 @@
         >
           <img class="product-image__img" :src="product.imageUrl" alt="" />
           <p class="product-name__p">{{ product.title }}</p>
-          <span class="product-price__span">{{ product.price }}</span>
+          <span class="product-price__span">${{ product.price }}</span>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <section class="checkout">
+  <section v-if="userStore.userProfile" class="checkout">
     <span class="title__span">Giỏ hàng</span>
     <div class="row">
       <div class="item-list">
@@ -13,14 +13,18 @@
         <div v-for="item of itemsList" class="item-detail-row">
           <img :src="item.image" class="image__img" alt="" />
           <div class="name-sku">
-            <p class="item-name__p">{{ item.name }}</p>
-            <span class="item-sku__span">SKU: {{ item.sku }}</span>
+            <p class="item-name__p">{{ item.title }}</p>
           </div>
-          <span class="price__span">{{ item.price }}</span>
-          <input type="number" class="quantity__input" min="0" />
-          <span class="total-price-item__span">{{
-            item.price * item.quantity
-          }}</span>
+          <span class="price__span">${{ item.price }}</span>
+          <Field
+            type="number"
+            class="quantity__input"
+            min="1"
+            v-model="item.quantity"
+          />
+          <span class="total-price-item__span"
+            >${{ item.price * item.quantity }}</span
+          >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="remove-item__svg"
@@ -40,13 +44,13 @@
       </div>
       <div class="checkout-section">
         <div class="checkout-row checkout-row--address">
-          <app-checkout-address></app-checkout-address>
+          <CartAddress />
         </div>
         <div class="checkout-row">
           <span class="checkout-title__span">Thanh toán</span>
           <div class="total-price">
             <span class="total-price-title__span">Thành tiền: </span>
-            <span class="total-price__span">{{ totalPrice }}</span>
+            <span class="total-price__span">${{ totalPrice }}</span>
           </div>
           <button class="checkout__button" v-on:click="onCheckout()">
             <span>Thanh toán</span>
@@ -55,8 +59,38 @@
       </div>
     </div>
   </section>
+  <div v-else>Loading...</div>
 </template>
-<script></script>
+<script setup>
+import { Field } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
+import CartAddress from "../components/cart/CartAddress.vue";
+import { userStore } from "../stores/store";
+
+const itemsList = ref({});
+const totalPrice = ref(0);
+
+watch(
+  () => userStore.userProfile,
+  () => {
+    if (userStore.userProfile) {
+      itemsList.value = userStore?.userProfile?.cart;
+      itemsList.value.forEach((item) => {
+        totalPrice.value = totalPrice.value + item.price * item.quantity;
+      });
+    }
+  }
+);
+
+onMounted(() => {
+  if (userStore.userProfile) {
+    itemsList.value = userStore?.userProfile?.cart;
+    itemsList.value.forEach((item) => {
+        totalPrice.value = totalPrice.value + item.price * item.quantity;
+      });
+  }
+});
+</script>
 <style lang="scss" scoped>
-    @import '../assets/cart.sass'
+@import "../assets/cart.sass";
 </style>
