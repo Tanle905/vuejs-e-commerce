@@ -6,26 +6,14 @@
     </div>
     <div class="header__right">
       <button class="icon__button">
-        <i class="fas fa-tag m-auto"></i> <span>Khuyến mãi</span>
-      </button>
-      <button class="icon__button">
         <i class="fas fa-clipboard-list m-auto"></i> <span>Đơn hàng</span>
       </button>
       <button
         class="icon__button"
         v-on:click="!userStore.userProfile && onNavigate()"
-        @mouseover="
-          () => {
-            isProfileHovered = true;
-          }
-        "
-        @mouseleave="
-          () => {
-            isProfileHovered = false;
-          }
-        "
+        v-on:mouseover="isProfileHovered = true"
+        v-on:mouseleave="isProfileHovered = false"
       >
-        <HeaderProfile v-if="userStore.userProfile && isProfileHovered" />
         <i
           class="fas fa-user m-auto"
           v-if="!userStore?.userProfile?.imageUrl"
@@ -41,11 +29,17 @@
           userStore.userProfile ? userStore.userProfile.username : "Đăng nhập"
         }}</span>
       </button>
-      <button class="icon__button">
-        <i class="fas fa-bell m-auto"></i> <span>Thông báo</span>
-      </button>
-      <button class="icon__button" v-on:click="onCartNavigate()">
-        <!-- <app-header-cart *ngIf="isCartHovered"></app-header-cart> -->
+      <HeaderProfile
+        v-if="userStore.userProfile && isProfileHovered"
+        v-on:mouseenter="isProfileHovered = true"
+        v-on:mouseleave="isProfileHovered = false"
+      />
+      <button
+        class="icon__button"
+        v-on:click="onCartNavigate()"
+        v-on:mouseover="isCartHovered = true"
+        v-on:mouseleave="isCartHovered = false"
+      >
         <i
           class="fas fa-cart-shopping m-auto"
           style="position: relative"
@@ -58,6 +52,11 @@
 
         <span>Giỏ hàng</span>
       </button>
+      <HeaderCart
+        v-if="isCartHovered"
+        v-on:mouseenter="isCartHovered = true"
+        v-on:mouseleave="isCartHovered = false"
+      />
     </div>
   </header>
 </template>
@@ -68,9 +67,11 @@ import router from "../../router";
 import { userStore } from "../../stores/store";
 import UserService from "@/services/user.service";
 import HeaderSearch from "./HeaderSearch.vue";
+import HeaderCart from "./HeaderCart.vue";
 
 const accessToken = localStorage.getItem("accessToken");
 const isProfileHovered = ref(false);
+const isCartHovered = ref(false);
 const totalProduct = ref(0);
 
 onMounted(async () => {

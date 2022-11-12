@@ -17,6 +17,7 @@
           </div>
           <span class="price__span">${{ item.price }}</span>
           <Field
+            name="quantity"
             type="number"
             class="quantity__input"
             min="1"
@@ -86,8 +87,8 @@ onMounted(() => {
   if (userStore.userProfile) {
     itemsList.value = userStore?.userProfile?.cart;
     itemsList.value.forEach((item) => {
-        totalPrice.value = totalPrice.value + item.price * item.quantity;
-      });
+      totalPrice.value = totalPrice.value + item.price * item.quantity;
+    });
   }
 });
 </script>

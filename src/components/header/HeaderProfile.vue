@@ -17,7 +17,7 @@
     <div routerLink="/account" class="option" v-on:click="onNavigate()">
       <span>Thông tin tài khoản</span>
     </div>
-    <a class="logout__button" v-on:click="onLogout()">Đăng xuất</a>
+    <button class="logout__button" v-on:click="onLogout()">Đăng xuất</button>
   </div>
 </template>
 <script setup>
