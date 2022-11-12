@@ -5,6 +5,7 @@ class UserService {
   userApi = {
     categories: "/categories",
     product: "/product",
+    banner: "/banner",
     userLogin: "/auth/login",
     userForgotPassword: "/auth/forgot-password",
     userRegister: "/auth/register",
@@ -14,16 +15,20 @@ class UserService {
     userAddresses: "/users/me/addresses",
   };
 
-  getProducts(title = null) {
+  getProducts(title = null, page = 1, pageSize = 10) {
     return axios.get(
       this.URL +
         this.userApi.product +
-        `?page=1&limit=10${title ? `&title=${title}` : ""}`
+        `?page=${page}&pageSize=${pageSize}${title ? `&title=${title}` : ""}`
     );
   }
 
   getProductDetails(productId) {
     return axios.get(this.URL + this.userApi.product + "/" + productId);
+  }
+
+  getBanners() {
+    return axios.get(this.URL + this.userApi.banner);
   }
 
   getOwnProfile(token) {
