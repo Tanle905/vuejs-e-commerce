@@ -6,9 +6,9 @@
       class="address"
       :class="selectedAddressId === address._id ? 'address--active' : ''"
     >
-      <span class="full-name__span">{{ address.fullName }}</span>
-      <span class="phone__span">{{ address.phoneNumber }}</span>
-      <span class="address__span">{{ address.address }}</span>
+      <p class="full-name__span">{{ address.fullName }}</p>
+      <p class="phone__span">{{ address.phoneNumber }}</p>
+      <p class="address__span">{{ `${address.address}, ${address.city}` }}</p>
     </div>
     <div class="address address--add" v-on:click="onAddNewAddress()">
       <svg
