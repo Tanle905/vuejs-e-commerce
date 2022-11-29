@@ -6,7 +6,7 @@ class UserService {
     product: "/product",
     banner: "/banner",
     userLogin: "/auth/login",
-    userRegister: "/auth/register",
+    userSignup: "/auth/signup",
     userProfile: "/profile",
     userCart: "/cart",
   };
@@ -43,11 +43,9 @@ class UserService {
     return axios.post(this.URL + this.userApi.userLogin, params);
   }
 
-  // register(params) {
-  //   return axios.post(this.URL + this.userApi.userRegister, params, {
-  //     headers: { "Content-Type": "application/x-www-form-this.URLencoded" },
-  //   });
-  // }
+  signup(params) {
+    return axios.post(this.URL + this.userApi.userSignup, params);
+  }
 
   getCart(token) {
     return axios.get(this.URL + this.userApi.userCart, {

@@ -66,7 +66,6 @@
 </template>
 <script setup>
 import { notification } from "ant-design-vue";
-import { add } from "lodash";
 import { Field } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
 import CartAddress from "../components/cart/CartAddress.vue";

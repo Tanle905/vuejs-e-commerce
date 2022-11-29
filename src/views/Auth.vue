@@ -53,9 +53,9 @@ function onSwitchMode() {
 }
 
 async function submitAuth(payload) {
-  const data = isLoginMode
+  const data = isLoginMode.value
     ? await UserService.auth(payload)
-    : await UserService.register(payload);
+    : (await UserService.signup(payload)) && (await UserService.auth(payload));
   if (data) {
     localStorage.setItem("accessToken", data.data.accessToken);
     userStore.setUserProfile(data.data);
