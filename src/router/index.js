@@ -25,10 +25,16 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () => import("@/views/UserDetails.vue"),
-  },  {
+  },
+  {
     path: "/cart",
     name: "cart",
     component: () => import("@/views/Cart.vue"),
+  },
+  {
+    path: "/order",
+    name: "order",
+    component: () => import("@/views/Order.vue"),
   },
 ];
 const router = createRouter({

@@ -5,8 +5,9 @@
       <HeaderSearch />
     </div>
     <div class="header__right">
-      <button class="icon__button">
-        <i class="fas fa-clipboard-list m-auto"></i> <span>Đơn hàng</span>
+      <button class="icon__button" v-on:click="onOrderNavigate()">
+        <i class="fas fa-clipboard-list m-auto"></i>
+        <span>Đơn hàng</span>
       </button>
       <button
         class="icon__button"
@@ -62,7 +63,7 @@
 </template>
 <script setup>
 import HeaderProfile from "@/components/header/HeaderProfile.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import router from "../../router";
 import { userStore } from "../../stores/store";
 import UserService from "@/services/user.service";
@@ -83,12 +84,23 @@ onMounted(async () => {
   }
 });
 
+watch(
+  () => userStore?.userProfile?.cart,
+  () => {
+    totalProduct.value = userStore.userProfile.cart.length;
+  }
+);
+
 function onNavigate() {
   router.push({ name: "auth" });
 }
 
 function onCartNavigate() {
   router.push({ name: "cart" });
+}
+
+function onOrderNavigate() {
+  router.push({ name: "order" });
 }
 </script>
 <style lang="scss" scoped>

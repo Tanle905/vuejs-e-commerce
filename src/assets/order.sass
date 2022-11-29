@@ -1,0 +1,77 @@
+@import "./variables"
+
+.order-title
+    margin: 0px 5px
+    font-size: 1.75rem
+    font-weight: bold
+.order-item-count
+    margin: 0px 5px
+    font-size: 0.95rem
+    font-weight: 500
+    color: $gray
+.order-list
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    margin: 30px auto
+    padding: 40px
+    border-radius: 7px
+    box-shadow: 1px 2px 10px $light-gray
+    .order
+        padding: 10px
+        margin: 10px
+        border-bottom: 1px solid $light-gray
+        .order-id
+            margin: 0px 0px
+            font-size: 0.95rem
+            font-weight: 500
+            color: $blue
+        .order-status
+            margin: 10px 0px
+            font-size: 0.85rem
+            font-weight: 500
+            color: $gray
+        .order-row
+            display: grid
+            column-gap: 10px
+            grid-template-columns: repeat(12, minmax(0, 1fr))
+            padding-bottom: 10px
+            span
+                font-weight: bold
+            .title-header__span
+                grid-column: span 4 / span 4
+                grid-column-start: 2
+            .quantity-header__span
+                grid-column: span 2 / span 2
+            .price-header__span
+                grid-column: span 2 / span 2
+        .order-detail-row
+            display: grid
+            column-gap: 10px
+            margin: 5px 0px
+            grid-template-columns: repeat(12, minmax(0, 1fr))
+            .image__img
+                width: 100%
+                aspect-ratio: 1
+                object-fit: cover
+                border-radius: 10px
+                grid-column: span 1 / span 1
+            .item-title__p
+                grid-column: span 4 / span 4
+                display: -webkit-box
+                max-width: 100%
+                -webkit-line-clamp: 2
+                -webkit-box-orient: vertical
+                overflow: hidden
+                margin: 10px 0px
+                font-size: 0.9rem
+            .price__span
+                grid-column: span 2 / span 2
+                font-size: 1rem
+                font-weight: 500
+                margin: auto 0px
+            .quantity__span
+                margin: auto 0px
+                grid-column: span 2 / span 2
+.loading
+    text-align: center

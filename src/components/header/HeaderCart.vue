@@ -26,15 +26,13 @@
         <span class="total-price__span">${{ totalPrice }}</span>
       </div>
       <button class="to-checkout__button">
-        <RouterLink to="/cart" style="color: white">
-          Xem giỏ hàng
-        </RouterLink>
+        <RouterLink to="/cart" style="color: white"> Xem giỏ hàng </RouterLink>
       </button>
     </div>
   </section>
 </template>
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import router from "../../router";
 import { userStore } from "../../stores/store";
 
@@ -48,7 +46,7 @@ onMounted(() => {
     itemsList.value.forEach((item) => {
       totalPrice.value = totalPrice.value + item.price * item.quantity;
     });
-    totalQuantity.value = itemsList.value.length;
+    totalQuantity.value = userStore?.userProfile?.cart.length;
   }
 });
 

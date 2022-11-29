@@ -48,20 +48,25 @@
                         transition: all 200ms
                         transition-timing-function: ease-in-out
                         transform: translate(0px,-1px)
-                .buy-now__button
+                    &:disabled
+                        background-color: $light-gray
+                        border-color: $light-gray
+                        color: $gray
+                        cursor: default
+                .add-to-cart__button
                     border: none
                     border-radius: 3px
                     background-color: $light-blue
                     color: white
-                    &:hover
+                    &:not(:disabled):hover
                         background-color: $lighter-blue
-                .add-to-cart__button
-                    width: 49%
-                    height: 30px
-                    border: 2px solid $light-blue
-                    border-radius: 3px
-                    background-color: white
-                    color: $light-blue
+                // .add-to-cart__button
+                //     width: 49%
+                //     height: 30px
+                //     border: 2px solid $light-blue
+                //     border-radius: 3px
+                //     background-color: white
+                //     color: $light-blue
     .product-detail
         margin-top: 10px
         padding-top: 10px

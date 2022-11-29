@@ -33,7 +33,7 @@
             viewBox="0 0 24 24"
             stroke="currentColor"
             stroke-width="2"
-            v-on:click="onDeleteItem(item.id)"
+            v-on:click="onDeleteItem(item._id)"
           >
             <path
               stroke-linecap="round"
@@ -45,7 +45,9 @@
       </div>
       <div class="checkout-section">
         <div class="checkout-row checkout-row--address">
-          <CartAddress />
+          <CartAddress
+            @on-address-change="(address) => onAddressChange(address)"
+          />
         </div>
         <div class="checkout-row">
           <span class="checkout-title__span">Thanh toán</span>
@@ -63,18 +65,35 @@
   <div v-else>Loading...</div>
 </template>
 <script setup>
+import { notification } from "ant-design-vue";
+import { add } from "lodash";
 import { Field } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
 import CartAddress from "../components/cart/CartAddress.vue";
+import userService from "../services/user.service";
 import { userStore } from "../stores/store";
 
 const itemsList = ref({});
 const totalPrice = ref(0);
+const accessToken = localStorage.getItem("accessToken");
+const selectedAddress = ref({});
 
 watch(
   () => userStore.userProfile,
   () => {
     if (userStore.userProfile) {
+      itemsList.value = userStore?.userProfile?.cart;
+      itemsList.value.forEach((item) => {
+        totalPrice.value = totalPrice.value + item.price * item.quantity;
+      });
+    }
+  }
+);
+
+watch(
+  () => userStore?.userProfile?.cart,
+  () => {
+    if (userStore?.userProfile?.cart) {
       itemsList.value = userStore?.userProfile?.cart;
       itemsList.value.forEach((item) => {
         totalPrice.value = totalPrice.value + item.price * item.quantity;
@@ -91,6 +110,36 @@ onMounted(() => {
     });
   }
 });
+
+async function onDeleteItem(id) {
+  if (accessToken) {
+    await userService.deleteItemInCart(accessToken, id);
+    const cartData = await userService.getCart(accessToken);
+    userStore.userProfile.cart = cartData.data.data;
+    notification.success({ message: "Xóa khỏi giỏ hàng thành công !" });
+  }
+}
+
+function onAddressChange(address) {
+  selectedAddress.value = address;
+}
+
+function onCheckout() {
+  const checkoutDetails = {
+    orderStatus: "pending",
+    currency: "USD",
+    items: itemsList.value,
+    address: selectedAddress.value,
+    paymentStatus: "paid",
+    totalPrice: totalPrice.value,
+  };
+
+  userService.checkout(accessToken, checkoutDetails).then(async (result) => {
+    notification.success({ message: "Thanh toán thành công !" });
+    await userService.clearCart(accessToken, userStore.userProfile._id);
+    window.location.href = "/";
+  });
+}
 </script>
 <style lang="scss" scoped>
 @import "../assets/cart.sass";

@@ -3,16 +3,12 @@ import axios from "axios";
 class UserService {
   URL = "https://tmdt-be-ygps.vercel.app";
   userApi = {
-    categories: "/categories",
     product: "/product",
     banner: "/banner",
     userLogin: "/auth/login",
-    userForgotPassword: "/auth/forgot-password",
     userRegister: "/auth/register",
     userProfile: "/profile",
     userCart: "/cart",
-    userPaymentMethod: "/users/me/payment-methods",
-    userAddresses: "/users/me/addresses",
   };
 
   getProducts(title = null, page = 1, pageSize = 10) {
@@ -47,15 +43,11 @@ class UserService {
     return axios.post(this.URL + this.userApi.userLogin, params);
   }
 
-  forgotPassword(params) {
-    return axios.post(this.URL + this.userApi.userForgotPassword, params);
-  }
-
-  register(params) {
-    return axios.post(this.URL + this.userApi.userRegister, params, {
-      headers: { "Content-Type": "application/x-www-form-this.URLencoded" },
-    });
-  }
+  // register(params) {
+  //   return axios.post(this.URL + this.userApi.userRegister, params, {
+  //     headers: { "Content-Type": "application/x-www-form-this.URLencoded" },
+  //   });
+  // }
 
   getCart(token) {
     return axios.get(this.URL + this.userApi.userCart, {
@@ -63,26 +55,37 @@ class UserService {
     });
   }
 
-  getPaymentMethod(token) {
-    return axios.get(this.URL + this.userApi.userPaymentMethod, {
-      headers: { Authorization: "Bearer " + token },
-    });
-  }
-
-  createPaymentMethod(token) {
+  addItemToCart(token, id) {
     return axios.post(
-      this.URL + this.userApi.userPaymentMethod,
-      {},
+      this.URL + this.userApi.userCart,
+      { data: [{ productId: id, quantity: 1 }] },
       {
         headers: { Authorization: "Bearer " + token },
       }
     );
   }
 
-  getAddress(token) {
-    return axios.get(this.URL + this.userApi.userAddresses, {
+  deleteItemInCart(token, id) {
+    return axios.delete(this.URL + this.userApi.userCart, {
+      headers: { Authorization: "Bearer " + token },
+      data: { data: [{ productId: id }] },
+    });
+  }
+
+  clearCart(token, userId) {
+    return axios.delete(this.URL + this.userApi.userCart + "/" + userId, {
       headers: { Authorization: "Bearer " + token },
     });
+  }
+
+  checkout(token, checkoutDetails) {
+    return axios.put(
+      this.URL + this.userApi.userProfile,
+      {
+        order: checkoutDetails,
+      },
+      { headers: { Authorization: "Bearer " + token } }
+    );
   }
 }
 

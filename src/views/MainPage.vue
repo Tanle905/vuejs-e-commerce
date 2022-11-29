@@ -11,7 +11,7 @@
         :class="{ active: index == 0 }"
         v-for="(banner, index) in banners"
       >
-        <img class="img-fluid d-block w-100" :src="banner.imageUrl" />
+        <a v-bind:href="banner.linkTo"><img class="img-fluid d-block w-100" :src="banner.imageUrl" /></a>
       </div>
     </div>
     <a
@@ -108,7 +108,7 @@ const handleSetProductAndPagi = (result) => {
   pagination.page = result.data.page;
   pagination.count = result.data.count;
   pagination.pageSize = result.data.pageSize;
-  totalPages.value = Math.round(pagination.count / pagination.pageSize);
+  totalPages.value = Math.ceil(pagination.count / pagination.pageSize);
 };
 
 onMounted(() => {
@@ -140,7 +140,7 @@ function handlePagination(action) {
       );
       break;
     case "previous":
-      if (c) break;
+      if (pagination.page <= 1) break;
       isFetching.value = true;
       UserService.getProducts(null, parseInt(pagination.page) - 1, 10).then(
         (result) => {

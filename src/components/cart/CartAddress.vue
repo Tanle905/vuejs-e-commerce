@@ -33,7 +33,9 @@ import { onMounted, ref, watch } from "vue";
 import { userStore } from "../../stores/store";
 
 const addressList = ref({});
+const selectedAddress = ref({});
 const selectedAddressId = ref();
+const emit = defineEmits(["onAddressChange"]);
 
 watch(
   () => userStore.userProfile,
@@ -47,11 +49,15 @@ watch(
 onMounted(() => {
   if (userStore.userProfile) {
     addressList.value = userStore?.userProfile?.address;
+    selectedAddress.value = addressList.value[0];
+  selectedAddressId.value = addressList.value[0]._id;
   }
 });
 
 function onSelected(address) {
+  selectedAddress.value = address;
   selectedAddressId.value = address._id;
+  emit("onAddressChange", selectedAddress.value);
 }
 </script>
 <style lang="scss" scoped>
