@@ -10,7 +10,7 @@
       <span class="phone__span">{{ address.phoneNumber }}</span>
       <span class="address__span">{{ address.address }}</span>
     </div>
-    <div class="address address--add">
+    <div class="address address--add" v-on:click="onAddNewAddress()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -35,7 +35,7 @@ import { userStore } from "../../stores/store";
 const addressList = ref({});
 const selectedAddress = ref({});
 const selectedAddressId = ref();
-const emit = defineEmits(["onAddressChange"]);
+const emit = defineEmits(["onAddressChange", "onAddNewAddress"]);
 
 watch(
   () => userStore.userProfile,
@@ -50,7 +50,7 @@ onMounted(() => {
   if (userStore.userProfile) {
     addressList.value = userStore?.userProfile?.address;
     selectedAddress.value = addressList.value[0];
-  selectedAddressId.value = addressList.value[0]._id;
+    selectedAddressId.value = addressList.value[0]._id;
   }
 });
 
@@ -58,6 +58,10 @@ function onSelected(address) {
   selectedAddress.value = address;
   selectedAddressId.value = address._id;
   emit("onAddressChange", selectedAddress.value);
+}
+
+function onAddNewAddress() {
+  emit("onAddNewAddress");
 }
 </script>
 <style lang="scss" scoped>

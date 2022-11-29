@@ -47,7 +47,9 @@
         <div class="checkout-row checkout-row--address">
           <CartAddress
             @on-address-change="(address) => onAddressChange(address)"
+            @on-add-new-address="onAddNewAddress()"
           />
+          <CartAddressAddModal :is-modal-visible="isModalVisible" />
         </div>
         <div class="checkout-row">
           <span class="checkout-title__span">Thanh toán</span>
@@ -69,6 +71,7 @@ import { notification } from "ant-design-vue";
 import { Field } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
 import CartAddress from "../components/cart/CartAddress.vue";
+import CartAddressAddModal from "../components/cart/CartAddressAddModal.vue";
 import userService from "../services/user.service";
 import { userStore } from "../stores/store";
 
@@ -76,6 +79,7 @@ const itemsList = ref({});
 const totalPrice = ref(0);
 const accessToken = localStorage.getItem("accessToken");
 const selectedAddress = ref({});
+const isModalVisible = ref(false);
 
 watch(
   () => userStore.userProfile,
@@ -121,6 +125,10 @@ async function onDeleteItem(id) {
 
 function onAddressChange(address) {
   selectedAddress.value = address;
+}
+
+function onAddNewAddress() {
+  isModalVisible.value = !isModalVisible.value;
 }
 
 function onCheckout() {

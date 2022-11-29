@@ -10,6 +10,7 @@ class UserService {
     userProfile: "/profile",
     userCart: "/cart",
   };
+  VietnamProvinceBaseUrl = "https://provinces.open-api.vn/api/";
 
   getProducts(title = null, page = 1, pageSize = 10) {
     return axios.get(
@@ -84,6 +85,18 @@ class UserService {
       },
       { headers: { Authorization: "Bearer " + token } }
     );
+  }
+
+  addUserAddress(token, address) {
+    return axios.put(
+      this.URL + this.userApi.userProfile,
+      { address: [{...address, country: "Vietnam"}] },
+      { headers: { Authorization: "Bearer " + token } }
+    );
+  }
+
+  fetchCity() {
+    return axios.get(this.VietnamProvinceBaseUrl);
   }
 }
 
