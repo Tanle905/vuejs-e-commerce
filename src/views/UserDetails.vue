@@ -44,7 +44,9 @@ import { Form, Field } from "vee-validate";
 import UserService from "@/services/user.service";
 import { userStore } from "../stores/store";
 import { onMounted, ref, watch } from "vue";
+import { notification } from "ant-design-vue";
 
+const accessToken = localStorage.getItem("accessToken");
 const profile = ref({});
 
 watch(
@@ -63,13 +65,9 @@ onMounted(() => {
 });
 
 async function submitProfile(payload) {
-  const data = isLoginMode
-    ? await UserService.auth(payload)
-    : await UserService.register(payload);
-  if (data) {
-    localStorage.setItem("accessToken", data.data.accessToken);
-    userStore.setUserProfile(data.data);
-  }
+  UserService.updateOwnProfile(accessToken, payload).then((result) => {
+    notification.success({ message: "Cập nhật tài khoản thành công !" });
+  });
 }
 </script>
 <style lang="scss" scoped>

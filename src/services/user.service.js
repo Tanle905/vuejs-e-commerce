@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class UserService {
-  URL = "https://tmdt-be-ygps.vercel.app";
+  URL = "http://localhost:13000";
   userApi = {
     product: "/product",
     banner: "/banner",
